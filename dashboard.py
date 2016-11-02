@@ -13,10 +13,11 @@ class Application:
         builder.add_from_file('GUI.ui')
 
         # Maak widget mbv master als 'parent'
-        self.mainwindow = builder.get_object('Toplevel_1', master)
+        self.mainwindow = builder.get_object('mainframe', master)
 
 
 if __name__ == '__main__':
     root = tk.Tk()
+    root.title("Dashboard 'De Centrale'")
     app = Application(root)
     root.mainloop()
