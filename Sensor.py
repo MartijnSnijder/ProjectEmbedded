@@ -15,12 +15,13 @@ class connect:
 
                     # Het gemiddele van de laatste 10 waarden in de lijst wordt geprint
                     average = sum(datalist[-10:]) / len(datalist[-10:])
-                    return round(average)
+                    self.average = round(average)
 
             except connect.ser.SerialTimeoutException:
                 return ('Data could not be read')
 
-    def lightgraph(datalist):
+    def lightgraph(self):
+        datalist = []
         while 1:
             try:
                 for line in connect.ser:
@@ -48,3 +49,6 @@ class connect:
 
             except connect.ser.SerialTimeoutException:
                 return ('Data could not be read')
+
+    def getAverage(self):
+        return self.average
