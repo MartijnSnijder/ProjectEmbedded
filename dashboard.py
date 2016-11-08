@@ -1,39 +1,11 @@
 from tkinter import *
 root = Tk()
-import serial
-import time
+from Sensor import *
 
 class mainframe():
     def __init__(self, parent):
         self.parent = parent
         self.initUI()
-
-    # Deze functie zet een waarde om naar een int
-    def to_int(s):
-        try:
-            return int(s)
-        except ValueError:
-            return float(s)
-
-    # Hier wordt de Arduino afgelezen en de byte wordt in "ser" gezet
-    ser = serial.Serial('COM3', 9600, timeout=0)
-
-    datalist = []
-
-    while 1:
-        try:
-            for line in ser:
-                intvalue = to_int(line.rstrip().decode('utf-8'))  # Byte > Str > Int
-                datalist.append(intvalue)  # De int wordt in een lijst gezet
-
-                # Het gemiddele van de laatste 10 waarden in de lijst wordt geprint
-                average = sum(datalist[-10:]) / len(datalist[-10:])
-                # print(round(average))
-
-            time.sleep(1)
-
-        except ser.SerialTimeoutException:
-                break
 
     def initUI(self):
         #Slider widget voor scherm uitrol
@@ -48,7 +20,7 @@ class mainframe():
         intenslabel.pack()
 
         #Label voor waarde lichtintensiteit
-        intens = Label(root, text="ser")
+        intens = Label(root, text="waarde lichtintensiteit")
         intens.pack()
 
         # Label gemiddelde lichtintensiteit
@@ -56,7 +28,7 @@ class mainframe():
         avgintenslabel.pack()
 
         # Label voor waarde gemiddelde lichtintensiteit
-        avgintens = Label(root, text="average")
+        avgintens = Label(root, text=connect.getAverage(connect.light(connect)))
         avgintens.pack()
 
 def main():
