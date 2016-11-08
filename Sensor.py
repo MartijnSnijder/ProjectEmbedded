@@ -20,31 +20,20 @@ class connect:
             except connect.ser.SerialTimeoutException:
                 return ('Data could not be read')
 
-    def lightgraph(datalist):
+    def inputnumber(self):
+
         while 1:
             try:
                 for line in connect.ser:
                     intvalue = int(line.rstrip().decode('utf-8'))  # Byte > Str > Int
-                    datalist.append(intvalue)  # De int wordt in een lijst gezet
-                    return datalist
+                    return intvalue
             except ValueError:
                 return 0
 
 
-
-    #kopie versie light
-    def temperature(self):
-
-        datalist = []
+    def showinputnumbers(self):
         while 1:
-            try:
-                for line in connect.ser:
-                    intvalue = int(line.rstrip().decode('utf-8'))  # Byte > Str > Int
-                    datalist.append(intvalue)  # De int wordt in een lijst gezet
+            print(connect.inputnumber())
 
-                    # Het gemiddele van de laatste 10 waarden in de lijst wordt geprint
-                    average = sum(datalist[-10:]) / len(datalist[-10:])
-                    return round(average)
 
-            except connect.ser.SerialTimeoutException:
-                return ('Data could not be read')
+connect.showinputnumbers()
