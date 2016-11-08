@@ -15,7 +15,7 @@ class connect:
 
                     # Het gemiddele van de laatste 10 waarden in de lijst wordt geprint
                     average = sum(datalist[-10:]) / len(datalist[-10:])
-                    return round(average)
+                    self.average = round(average)
 
             except connect.ser.SerialTimeoutException:
                 return ('Data could not be read')
@@ -36,4 +36,7 @@ class connect:
             print(connect.inputnumber())
 
 
+    def getAverage(self):
+        return self.average
 connect.showinputnumbers()
+
