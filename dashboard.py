@@ -1,40 +1,54 @@
-from tkinter import *
-root = Tk()
-from Sensor import *
+import tkinter as Tk
+import instellingen
 
-class mainframe():
+########################################################################
+
+
+########################################################################
+class MyApp(object):
+    """"""
+
+    # ----------------------------------------------------------------------
     def __init__(self, parent):
-        self.parent = parent
+        """Constructor"""
+        self.root = parent
+        self.root.title("Main frame")
+        self.frame = Tk.Frame(parent)
+        self.frame.pack()
         self.initUI()
+        self.buttonInstellingen()
+
+    # ----------------------------------------------------------------------
+    def hide(self):
+        self.root.withdraw()
+
+    def buttonInstellingen(self):
+        btn = Tk.Button(self.frame, text="Instellingen", command=self.openInstellingen)
+        btn.pack()
+
+    # ----------------------------------------------------------------------
+    def openInstellingen(self):
+        """"""
+        subFrame = instellingen.instellingen(self)
+
+
+    # ----------------------------------------------------------------------
+    def show(self):
+        """"""
+        self.root.update()
+        self.root.deiconify()
 
     def initUI(self):
         #Slider widget voor scherm uitrol
-        var = DoubleVar()
-        scale = Scale(root, from_=0, to_=160, variable = var, orient_=HORIZONTAL,
+        var = Tk.DoubleVar()
+        scale = Tk.Scale(root, from_=0, to_=160, variable_=var, orient_=Tk.HORIZONTAL,
                       tickinterval_=20, length_=300, label="Zonnescherm handmatig in/uitrollen (cm)")
         scale.pack()
 
-        #Label lichtintensiteit
-        intenslabel = Label(root, text="Lichtintensiteit:")
-        ## .pack() gebruiken als je widget wil laten zien
-        intenslabel.pack()
 
-        #Label voor waarde lichtintensiteit
-        intens = Label(root, text="waarde lichtintensiteit")
-        intens.pack()
-
-        # Label gemiddelde lichtintensiteit
-        avgintenslabel = Label(root, text="Gemiddelde lichtintensiteit:")
-        avgintenslabel.pack()
-
-        # Label voor waarde gemiddelde lichtintensiteit
-        avgintens = Label(root, text=connect.getAverage(connect.light(connect)))
-        avgintens.pack()
-
-def main():
-    root.title("Dashboard")
-    app = mainframe(root)
+# ----------------------------------------------------------------------
+if __name__ == "__main__":
+    root = Tk.Tk()
+    root.geometry("800x600")
+    app = MyApp(root)
     root.mainloop()
-
-if __name__ == '__main__':
-    main()
