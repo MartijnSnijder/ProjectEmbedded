@@ -32,12 +32,11 @@ class MyApp(object):
         btn_din = Tk.Button(self.frame, text="dingen")
         btn_din.grid(row=1, column=4)
 
-
-
     # ----------------------------------------------------------------------
     def openInstellingen(self):
         """"""
         subFrame = instellingen.instellingen(self)
+        return subFrame
 
 
     # ----------------------------------------------------------------------

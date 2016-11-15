@@ -3,8 +3,9 @@ import pprint
 
 
 class instellingen(Tk.Toplevel):
-    st_fields = {'Minimale uitrol(cm)': 5, 'Maximale uitrol(cm)': 200,
-                 'Temperatuurwaarde(C)': 21,'Lichtwaarde(int)': 150,'Meet interval(sec)': 40}
+    st_fields = {'Minimale uitrol (cm)': 5, 'Maximale uitrol (cm)': 200,
+                 'Temperatuurwaarde (C)': 21,'Lichtwaarde (int)': 150,'Meet interval (sec)': 40}
+    fields = st_fields
     """"""
 
     # ----------------------------------------------------------------------
@@ -12,7 +13,7 @@ class instellingen(Tk.Toplevel):
         """Constructor"""
         self.original_frame = original
         Tk.Toplevel.__init__(self)
-        self.geometry("500x500")
+        self.geometry("500x200")
         self.title("Instellingen")
         self.buttons()
         self.makeform()
@@ -25,7 +26,7 @@ class instellingen(Tk.Toplevel):
 
     # ----------------------------------------------------------------------
     def buttons(self):
-        btn_save = Tk.Button(self, text='Opslaan', command=())
+        btn_save = Tk.Button(self, text='Opslaan', command=self.get_entry_values)
         btn_save.grid(row=10, column=1)
         btn_std = Tk.Button(self, text='Standaard instellingen', command=())
         btn_std.grid(row=10, column=2)
@@ -40,20 +41,23 @@ class instellingen(Tk.Toplevel):
 
 
     def makeform(self):
-        keys, values = [], []
-        x = 0
+        x = 1
+        Tk.Label(self, text="Huidig:").grid(row=0, column=3, sticky=Tk.W)
+        Tk.Label(self, text=" ").grid(row=0, column=4, sticky=Tk.W)
+        Tk.Label(self, text="Standaard: ").grid(row=0, column=5, sticky=Tk.W)
         for key in instellingen.st_fields:
             Tk.Label(self, text=key).grid(row=x, sticky=Tk.W)
             e1 = Tk.Entry(self)
             e1.grid(row=x, column=2)
-            Tk.Label(self, text="standaard= ").grid(row=x, column =3, sticky=Tk.W)
-            Tk.Label(self, text=instellingen.st_fields[key]).grid(row=x, column=4, sticky=Tk.W)
+            Tk.Label(self, text=instellingen.st_fields[key]).grid(row=x, column=5, sticky=Tk.W)
             x += 1
 
+    def get_entry_values(self):
+        for key in instellingen.fields:
 
-
-
-
+            if instellingen.fields.get(key) != 0:
+                print("yolo")
+        print(instellingen.fields)
 
         """
 
