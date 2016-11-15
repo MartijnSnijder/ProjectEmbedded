@@ -40,11 +40,5 @@ class connect:
             except ValueError:
                 return 1
 
-
-    def showinputnumbers(self):
-        while 1:
-            print(connect.inputnumber(self))
-
-
     def getAverage(self):
         return self.average
