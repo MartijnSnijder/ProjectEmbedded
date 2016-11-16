@@ -1,6 +1,7 @@
 import serial
 import time
 import win32com.client
+import numpy as np
 from matplotlib import pyplot as plt
 
 class connect:
@@ -10,7 +11,7 @@ class connect:
     for port in wmi.InstancesOf("Win32_SerialPort"):
         if "Arduino" in port.Name:
             comPort = port.DeviceID
-            ser = serial.Serial(comPort, 9600, timeout=1)
+            ser = serial.Serial(comPort, 19200, timeout=0)
             connected = True
             if ser != 0:
                 print("Arduino connected to", comPort)
@@ -36,18 +37,17 @@ class connect:
     def light(self):
         while True:
             for x in connect.ser:
-                time.sleep(1)
-                data = connect.ser.readline().rstrip()
+                # data = connect.ser.readline().rstrip().decode('utf-8')
+                data = (int.from_bytes(x, byteorder = 'big'))
                 print(data)
-                if len(data.split(".")) == 2:
-                    ymin = float(min(connect.ydata)) - 10
-                    ymax = float(max(connect.ydata)) + 10
-                    plt.ylim([ymin, ymax])
-                    connect.ydata.append(data)
-                    del connect.ydata[0]
-                    connect.line.set_xdata(connect.np.arange(len(connect.ydata)))
-                    connect.line.set_ydata(connect.ydata)  # update the data
-                    plt.pause(1)
-                    plt.draw()  # update the plot
+                ymin = float(min(connect.ydata)) - 10
+                ymax = float(max(connect.ydata)) + 10
+                plt.ylim([ymin, ymax])
+                connect.ydata.append(data)
+                del connect.ydata[0]
+                connect.line.set_xdata(np.arange(len(connect.ydata)))
+                connect.line.set_ydata(connect.ydata)  # update the data
+                #plt.draw()  # update the plot
+                time.sleep(1)
 
 connect.light(connect)
