@@ -3,8 +3,8 @@ import pprint
 
 
 class instellingen(Tk.Toplevel):
-    st_fields = {'Minimale uitrol (cm)': 5, 'Maximale uitrol (cm)': 200,
-                 'Temperatuurwaarde (C)': 21,'Lichtwaarde (int)': 150,'Meet interval (sec)': 40}
+    st_fields = {'1. Minimale uitrol (cm)': 5, '2. Maximale uitrol (cm)': 200,
+                 '4. Temperatuurwaarde (C)': 21,'3. Lichtwaarde (int)': 150,'5. Meet interval (sec)': 40}
     st_fields= sorted((st_fields.keys()))
     fields = st_fields
     """"""
@@ -45,7 +45,6 @@ class instellingen(Tk.Toplevel):
 
 
     def makeform(self):
-        #self.show_standard()
 
         Tk.Label(self, text="Huidig:").grid(row=0, column=3, sticky=Tk.W)
         Tk.Label(self, text=" ").grid(row=0, column=4, sticky=Tk.W)
@@ -80,6 +79,9 @@ class instellingen(Tk.Toplevel):
         self.e5 = Tk.Entry(self)
         self.e5.grid(row=7, column=2)
 
+        #standaard waarden laten zien
+        instellingen.show_standard(self)
+
 
 
     def get_entry_values(self):
@@ -90,7 +92,8 @@ class instellingen(Tk.Toplevel):
     def show_standard(self):
         x = 1
         for key in instellingen.st_fields:
-            Tk.Label(self, text=instellingen.st_fields[key]).grid(row=x, column=5, sticky=Tk.W)
+            print(instellingen.st_fields[key])
+            #Tk.Label(self, text=instellingen.st_fields[key]).grid(row=x, column=5, sticky=Tk.W)
             x += 1
 
 
