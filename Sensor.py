@@ -35,8 +35,8 @@ class connect:
 
     def light(self):
         while True:
-            time.sleep(1)
             data = (connect.ser.readline().rstrip().decode('UTF-8'))
+            time.sleep(1)
             if len(data.split(".")) == 2:
                 ymin = float(min(connect.ydata)) - 10
                 ymax = float(max(connect.ydata)) + 10
