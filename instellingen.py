@@ -6,7 +6,7 @@ class instellingen(Tk.Toplevel):
     """'1. Minimale uitrol (cm)': 5, '2. Maximale uitrol (cm)': 200,
             '4. Temperatuurwaarde (C)': 21,'3. Lichtwaarde (int)': 150,'5. Meet interval (sec)': 40}"""
 
-    standard_fields= [5, 200, 150, 21, 40]
+    standard_fields = [5, 200, 150, 21, 40]
     changed_fields = standard_fields
 
     # ----------------------------------------------------------------------
@@ -81,14 +81,13 @@ class instellingen(Tk.Toplevel):
 
         for x in range(len(lijst)):
             if lijst[x] != '':
-                instellingen.changed_fields[x] = lijst[x]
-            instellingen.validate_values(self)
-            instellingen.show_current_values(self)
-
+                self.changed_fields[x] = lijst[x]
+            self.validate_values()
+            self.show_current_values()
 
     def to_standard(self):
-        instellingen.changed_fields = instellingen.standard_fields
-        instellingen.show_current_values(self)
+        self.changed_fields = self.standard_fields
+        self.show_current_values()
 
     def show_current_values(self):
         y = 1
@@ -100,10 +99,10 @@ class instellingen(Tk.Toplevel):
 
     def show_standard(self):
         y = 1
-        for x in range(len(instellingen.standard_fields)):
+        for x in range(len(self.standard_fields)):
             if x == 2 or x == 4:
                 y += 1
-            Tk.Label(self, text=instellingen.standard_fields[x]).grid(row=y, column=6, sticky=Tk.W)
+            Tk.Label(self, text=self.standard_fields[x]).grid(row=y, column=6, sticky=Tk.W)
             y += 1
 
     def validate_values(self):
@@ -116,17 +115,23 @@ class instellingen(Tk.Toplevel):
         # maximale uitrolstand --
         if int(self.changed_fields[1]) > 500:
             self.changed_fields[1] = 500
-        if int(self.changed_fields[1] < 51):
+        if int(self.changed_fields[1]) < 51:
             self.changed_fields[1] = 51
 
-        # Lichtwaarde--
+        # Lichtwaarde --
         if int(self.changed_fields[2]) > 255:
             self.changed_fields[2] = 255
-        if int(self.changed_fields[2] < 150):
-            self.changed_fields[2] = 150
+        if int(self.changed_fields[2]) < 125:
+            self.changed_fields[2] = 125
 
-        # Temperatuurwaarde--
+        # Temperatuurwaarde --
         if int(self.changed_fields[3]) > 40:
             self.changed_fields[3] = 40
-        if int(self.changed_fields[3] < 0):
+        if int(self.changed_fields[3]) < 0:
             self.changed_fields[3] = 0
+
+        # Meet interval --
+        if int(self.changed_fields[4]) > 600:
+            self.changed_fields[4] = 600
+        if int(self.changed_fields[4]) < 5:
+            self.changed_fields[4] = 5
