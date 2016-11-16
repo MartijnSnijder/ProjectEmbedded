@@ -35,31 +35,19 @@ class connect:
 
     def light(self):
         while True:
-            data = (connect.ser.readline().rstrip().decode('UTF-8'))
-            time.sleep(1)
-            if len(data.split(".")) == 2:
-                ymin = float(min(connect.ydata)) - 10
-                ymax = float(max(connect.ydata)) + 10
-                plt.ylim([ymin, ymax])
-                connect.ydata.append(data)
-                del connect.ydata[0]
-                connect.line.set_xdata(connect.np.arange(len(connect.ydata)))
-                connect.line.set_ydata(connect.ydata)  # update the data
-                plt.draw()  # update the plot
-
-
-    def inputnumber(self):
-        while 1:
-            try:
-                for line in connect.ser:
-                    time.sleep(1)
-                    intvalue = connect.to_int(line.rstrip().decode('utf-8'))  # Byte > Str > Int
-                    return round(intvalue)
-
-            except ValueError:
-                return 1
-
-    def getAverage(self):
-        return self.average
+            for x in connect.ser:
+                time.sleep(1)
+                data = connect.ser.readline().rstrip()
+                print(data)
+                if len(data.split(".")) == 2:
+                    ymin = float(min(connect.ydata)) - 10
+                    ymax = float(max(connect.ydata)) + 10
+                    plt.ylim([ymin, ymax])
+                    connect.ydata.append(data)
+                    del connect.ydata[0]
+                    connect.line.set_xdata(connect.np.arange(len(connect.ydata)))
+                    connect.line.set_ydata(connect.ydata)  # update the data
+                    plt.pause(1)
+                    plt.draw()  # update the plot
 
 connect.light(connect)
