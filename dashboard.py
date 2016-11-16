@@ -32,12 +32,16 @@ class MyApp(object):
         btn_din = Tk.Button(self.frame, text="dingen")
         btn_din.grid(row=1, column=4)
 
+        btn_inr = Tk.Button(self.frame, text="Volledig inrollen" , command=())
+        btn_inr.grid(row=4, column= 4, columnspan= 3)
+
+        btn_inr = Tk.Button(self.frame, text="Volledig uitrollen" , command=())
+        btn_inr.grid(row=4, column=1, columnspan=3)
+
     # ----------------------------------------------------------------------
     def openInstellingen(self):
-        """"""
         subFrame = instellingen.instellingen(self)
         return subFrame
-
 
     # ----------------------------------------------------------------------
     def show(self):
@@ -56,6 +60,6 @@ class MyApp(object):
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
     root = Tk.Tk()
-    root.geometry("800x600")
+    root.geometry("600x200")
     app = MyApp(root)
     root.mainloop()
