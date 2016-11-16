@@ -27,12 +27,12 @@ class instellingen(Tk.Toplevel):
 
     # ----------------------------------------------------------------------
     def buttons(self):
-        btn_save = Tk.Button(self, text='Opslaan', pady=2, command=self.get_entry_values)
-        btn_save.grid(row=10, column=1,pady=2)
-        btn_std = Tk.Button(self, text='Standaard instellingen', pady=2, command=())
-        btn_std.grid(row=10, column=2,pady=5)
-        btn_close = Tk.Button(self, text="Close", pady=2,command=self.onClose)
-        btn_close.grid(row=10, column=3, pady=5)
+        self.btn_save = Tk.Button(self, text='Opslaan', pady=2, command=self.get_entry_values)
+        self.btn_save.grid(row=10, column=1,pady=2)
+        self.btn_std = Tk.Button(self, text='Standaard instellingen', pady=2, command=())
+        self.btn_std.grid(row=10, column=2,pady=5)
+        self.btn_close = Tk.Button(self, text="Close", pady=2,command=self.onClose)
+        self.btn_close.grid(row=10, column=3, pady=5)
 
     # -----------------------------------------------------------------------
 
@@ -55,35 +55,37 @@ class instellingen(Tk.Toplevel):
         Tk.Label(self, text="Uitrol instellingen:").grid(row=0, sticky=Tk.W,pady=6)
 
         Tk.Label(self, text="Minimale uitrol (cm)").grid(row=1, sticky=Tk.W)
-        e1 = Tk.Entry(self)
-        e1.grid(row=1, column=2)
+        self.e1 = Tk.Entry(self)
+        self.e1.grid(row=1, column=2)
 
         Tk.Label(self, text="Maximale uitrol (cm)").grid(row=2, sticky=Tk.W)
-        e2 = Tk.Entry(self)
-        e2.grid(row=2, column=2)
+        self.e2 = Tk.Entry(self)
+        self.e2.grid(row=2, column=2)
 
         #sensoren -> Lichtwaarde en temperatuurwaarde --
         Tk.Label(self, text="Sensor instellingen:").grid(row=3, sticky=Tk.W, pady=6)
 
         Tk.Label(self, text="Lichtwaarde (int)").grid(row=4, sticky=Tk.W)
-        e3 = Tk.Entry(self)
-        e3.grid(row=4, column=2)
+        self.e3 = Tk.Entry(self)
+        self.e3.grid(row=4, column=2)
 
         Tk.Label(self, text="Temperatuurwaarde (C)").grid(row=5, sticky=Tk.W)
-        e4 = Tk.Entry(self)
-        e4.grid(row=5, column=2)
+        self.e4 = Tk.Entry(self)
+        self.e4.grid(row=5, column=2)
 
         #meetinterval --
         Tk.Label(self, text="Automatisch meten:").grid(row=6, sticky=Tk.W, pady=6)
 
         Tk.Label(self, text="Meet interval (sec)").grid(row=7, sticky=Tk.W)
-        e5 = Tk.Entry(self)
-        e5.grid(row=7, column=2)
+        self.e5 = Tk.Entry(self)
+        self.e5.grid(row=7, column=2)
 
 
 
     def get_entry_values(self):
-        pass
+        value = self.e5.get()
+        print(value)
+
 
     def show_standard(self):
         x = 1
