@@ -7,7 +7,7 @@ class instellingen(Tk.Toplevel):
             '4. Temperatuurwaarde (C)': 21,'3. Lichtwaarde (int)': 150,'5. Meet interval (sec)': 40}"""
 
     standard_fields = [5, 200, 150, 21, 40]
-    changed_fields = standard_fields
+    changed_fields = [5, 200, 150, 21, 40]
 
     # ----------------------------------------------------------------------
     def __init__(self, original):
@@ -86,8 +86,8 @@ class instellingen(Tk.Toplevel):
             self.show_current_values()
 
     def to_standard(self):
-        self.changed_fields = self.standard_fields
-        self.show_current_values()
+        instellingen.changed_fields = [5, 200, 150, 21, 40]
+        instellingen.show_current_values(self)
 
     def show_current_values(self):
         y = 1
