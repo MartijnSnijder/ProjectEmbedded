@@ -25,6 +25,7 @@ class connect:
 
     # make plot
     line, = plt.plot(ydata)
+    plt.ylim([0, 400])  # set the y-range to 0 to 400
 
     # Deze functie zet een waarde om naar een int
     def to_int(s):
@@ -36,18 +37,27 @@ class connect:
 
     def light(self):
         while True:
+            data = connect.ser.readline().rstrip()
+            data = int.from_bytes(data, byteorder = 'big')  # read data from serial
+            # port and strip line endings
+            ymin = float(min(connect.ydata)) - 10
+            ymax = float(max(connect.ydata)) + 10
+            plt.ylim([ymin, ymax])
+            connect.ydata.append(data)
+            del connect.ydata[0]
+            connect.line.set_xdata(np.arange(len(connect.ydata)))
+            connect.line.set_ydata(connect.ydata)  # update the data
+            plt.draw()  # update the plot
+
+        """ while True:
             for x in connect.ser:
                 # data = connect.ser.readline().rstrip().decode('utf-8')
                 data = (int.from_bytes(x, byteorder = 'big'))
-                print(data)
-                ymin = float(min(connect.ydata)) - 10
-                ymax = float(max(connect.ydata)) + 10
-                plt.ylim([ymin, ymax])
                 connect.ydata.append(data)
                 del connect.ydata[0]
                 connect.line.set_xdata(np.arange(len(connect.ydata)))
                 connect.line.set_ydata(connect.ydata)  # update the data
-                #plt.draw()  # update the plot
-                time.sleep(1)
+                plt.draw()  # update the plot
+                time.sleep(1) """
 
 connect.light(connect)
