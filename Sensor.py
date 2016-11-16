@@ -1,6 +1,7 @@
 import serial
 import time
 import win32com.client
+import numpy as np
 from matplotlib import pyplot as plt
 
 class connect:
@@ -10,7 +11,7 @@ class connect:
     for port in wmi.InstancesOf("Win32_SerialPort"):
         if "Arduino" in port.Name:
             comPort = port.DeviceID
-            ser = serial.Serial(comPort, 9600, timeout=1)
+            ser = serial.Serial(comPort, 19200, timeout=0)
             connected = True
             if ser != 0:
                 print("Arduino connected to", comPort)
@@ -35,30 +36,18 @@ class connect:
 
     def light(self):
         while True:
-            data = connect.ser.readline().rstrip()
-            if len(data.split(".")) == 2:
+            for x in connect.ser:
+                # data = connect.ser.readline().rstrip().decode('utf-8')
+                data = (int.from_bytes(x, byteorder = 'big'))
+                print(data)
                 ymin = float(min(connect.ydata)) - 10
                 ymax = float(max(connect.ydata)) + 10
                 plt.ylim([ymin, ymax])
                 connect.ydata.append(data)
                 del connect.ydata[0]
-                connect.line.set_xdata(connect.np.arange(len(connect.ydata)))
+                connect.line.set_xdata(np.arange(len(connect.ydata)))
                 connect.line.set_ydata(connect.ydata)  # update the data
-                plt.draw()  # update the plot
-
-
-    def inputnumber(self):
-        while 1:
-            try:
-                for line in connect.ser:
-                    time.sleep(1)
-                    intvalue = connect.to_int(line.rstrip().decode('utf-8'))  # Byte > Str > Int
-                    return round(intvalue)
-
-            except ValueError:
-                return 1
-
-    def getAverage(self):
-        return self.average
+                #plt.draw()  # update the plot
+                time.sleep(1)
 
 connect.light(connect)
