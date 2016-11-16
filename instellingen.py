@@ -3,11 +3,11 @@ import pprint
 
 
 class instellingen(Tk.Toplevel):
-    st_fields = {'1. Minimale uitrol (cm)': 5, '2. Maximale uitrol (cm)': 200,
-                 '4. Temperatuurwaarde (C)': 21,'3. Lichtwaarde (int)': 150,'5. Meet interval (sec)': 40}
-    st_fields= sorted((st_fields.keys()))
-    fields = st_fields
-    """"""
+    """'1. Minimale uitrol (cm)': 5, '2. Maximale uitrol (cm)': 200,
+            '4. Temperatuurwaarde (C)': 21,'3. Lichtwaarde (int)': 150,'5. Meet interval (sec)': 40}"""
+
+    standard_fields = [5, 200, 150, 21, 40]
+    changed_fields = standard_fields
 
     # ----------------------------------------------------------------------
     def __init__(self, original):
@@ -18,7 +18,8 @@ class instellingen(Tk.Toplevel):
         self.title("Instellingen")
         self.buttons()
         self.makeform()
-        self.test()
+        self.show_standard()
+        self.show_current_values()
     # ----------------------------------------------------------------------
     def onClose(self):
         """"""
@@ -27,28 +28,20 @@ class instellingen(Tk.Toplevel):
 
     # ----------------------------------------------------------------------
     def buttons(self):
-        self.btn_save = Tk.Button(self, text='Opslaan', pady=2, command=self.get_entry_values)
+        self.btn_save = Tk.Button(self, text='Opslaan', pady=2, command=self.change_values)
         self.btn_save.grid(row=10, column=1,pady=2)
-        self.btn_std = Tk.Button(self, text='Standaard instellingen', pady=2, command=())
+        self.btn_std = Tk.Button(self, text='Standaard instellingen', pady=2, command=self.to_standard)
         self.btn_std.grid(row=10, column=2,pady=5)
         self.btn_close = Tk.Button(self, text="Close", pady=2,command=self.onClose)
         self.btn_close.grid(row=10, column=3, pady=5)
 
     # -----------------------------------------------------------------------
-
-    def test(self):
-        print(self.st_fields)
-
-    def huidige_waardes(self):
-            for key in instellingen.st_fields:
-                print(key, instellingen.st_fields[key])
-
-
     def makeform(self):
 
-        Tk.Label(self, text="Huidig:").grid(row=0, column=3, sticky=Tk.W)
-        Tk.Label(self, text=" ").grid(row=0, column=4, sticky=Tk.W)
-        Tk.Label(self, text="Standaard: ").grid(row=0, column=5, sticky=Tk.W)
+        Tk.Label(self, text="").grid(row=0, column=3, sticky=Tk.W)
+        Tk.Label(self, text="Huidig:").grid(row=0, column=4, sticky=Tk.W)
+        Tk.Label(self, text=" ").grid(row=0, column=5, sticky=Tk.W)
+        Tk.Label(self, text="Standaard: ").grid(row=0, column=6, sticky=Tk.W)
 
         #uitrol instellingen --
         Tk.Label(self, text="Uitrol instellingen:").grid(row=0, sticky=Tk.W,pady=6)
@@ -79,48 +72,66 @@ class instellingen(Tk.Toplevel):
         self.e5 = Tk.Entry(self)
         self.e5.grid(row=7, column=2)
 
-        #standaard waarden laten zien
-        instellingen.show_standard(self)
-
-
-
     def get_entry_values(self):
-        value = self.e5.get()
-        print(value)
+        lijst = [self.e1.get(),self.e2.get(),self.e3.get(), self.e4.get(),self.e5.get()]
+        return lijst
 
+    def change_values(self):
+        lijst = self.get_entry_values()
+
+        for x in range(len(lijst)):
+            if lijst[x] != '':
+                self.changed_fields[x] = lijst[x]
+            self.validate_values()
+            self.show_current_values()
+
+    def to_standard(self):
+        self.changed_fields = self.standard_fields
+        self.show_current_values()
+
+    def show_current_values(self):
+        y = 1
+        for x in range(len(instellingen.changed_fields)):
+            if x == 2 or x == 4:
+                y += 1
+            Tk.Label(self, text=instellingen.changed_fields[x]).grid(row=y, column=4, sticky=Tk.W)
+            y += 1
 
     def show_standard(self):
-        x = 1
-        for key in instellingen.st_fields:
-            print(instellingen.st_fields[key])
-            #Tk.Label(self, text=instellingen.st_fields[key]).grid(row=x, column=5, sticky=Tk.W)
-            x += 1
+        y = 1
+        for x in range(len(self.standard_fields)):
+            if x == 2 or x == 4:
+                y += 1
+            Tk.Label(self, text=self.standard_fields[x]).grid(row=y, column=6, sticky=Tk.W)
+            y += 1
 
+    def validate_values(self):
+        # minimale uitrolstand --
+        if int(self.changed_fields[0]) < 5:
+            self.changed_fields[0] = 5
+        if int(self.changed_fields[0]) > 50:
+            self.changed_fields[0] = 50
 
-        """
+        # maximale uitrolstand --
+        if int(self.changed_fields[1]) > 500:
+            self.changed_fields[1] = 500
+        if int(self.changed_fields[1]) < 51:
+            self.changed_fields[1] = 51
 
-        x=0
-        row = Tk.Frame(self)
-        lab = Tk.Label(row, width=20, anchor='w')
-        ent = Tk.Enty(row)
-        row.grid(row=x, column=1, columnspan=2)
-        lab.grid(row=x, column=1, columnspan=2)
-        ent.grid(row=x,column=1, columnspan=2)
-        entries.append(, ent)
+        # Lichtwaarde --
+        if int(self.changed_fields[2]) > 255:
+            self.changed_fields[2] = 255
+        if int(self.changed_fields[2]) < 125:
+            self.changed_fields[2] = 125
 
-        pass
-        #for field in instellingen.st_fields:
-        x += 1
-        row = Tk.Frame(self)
-        lab = Tk.Label(row, width=20, text=field, anchor='w')
-        ent = Tk.Entry(row)
-        row.grid(row=x, column=1, columnspan=2)
-        lab.grid(row=x, column=2, columnspan=2)
-        ent.grid(row=x, column=3, columnspan=2)
-        entries.append((field, ent))
-        print(entries)
+        # Temperatuurwaarde --
+        if int(self.changed_fields[3]) > 40:
+            self.changed_fields[3] = 40
+        if int(self.changed_fields[3]) < 0:
+            self.changed_fields[3] = 0
 
-        return entries
-        """
-
-
+        # Meet interval --
+        if int(self.changed_fields[4]) > 600:
+            self.changed_fields[4] = 600
+        if int(self.changed_fields[4]) < 5:
+            self.changed_fields[4] = 5
