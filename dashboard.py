@@ -1,10 +1,10 @@
 import instellingen
-import tesst
 import matplotlib
 matplotlib.use('TkAgg')
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+
 
 
 import sys
@@ -24,8 +24,9 @@ class MyApp(object):
         self.root.title("Scherm overzicht")
         #self.frame.grid()
         self.line_graph()
-        #self.initUI()
-        #self.current_values()
+        self.initUI()
+        self.current_values()
+
 
 
     def hide(self):
@@ -73,6 +74,7 @@ class MyApp(object):
         scale.pack(side=Tk.RIGHT)
 
     def line_graph(self):
+
         # http://matplotlib.org/examples/user_interfaces/embedding_in_tk2.html
 
         f = Figure(figsize=(3, 3), dpi=100)
@@ -92,7 +94,10 @@ class MyApp(object):
         canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
         self.buttons()
+
         self.edoe()
+
+
 
     def edoe(self):
         data = [20, 15, 10, 7, 5, 4, 3, 2, 1, 1, 0]
@@ -123,6 +128,7 @@ class MyApp(object):
             c.create_rectangle(x0, y0, x1, y1, fill="red")
             # put the y value above each bar
             c.create_text(x0 + 2, y0, anchor=Tk.SW, text=str(y))
+
 
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
